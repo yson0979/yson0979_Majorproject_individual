@@ -1,62 +1,154 @@
+let staticLayer;
+let dynamicLayer;
+// The global variable is used to store the dropped apple
+let fallingApple1, fallingApple2, fallingApple3, fallingApple4; 
+// Flag variable that controls whether the apple starts to fall
+let isFalling = false;  
+
 function setup() {
-  // Set the canvas size
-  createCanvas(464, 649);
-  drawCanvas();
+  createCanvas(464 * 1.4, 649 * 1.4);
+  staticLayer = createGraphics(width, height);
+  dynamicLayer = createGraphics(width, height);
+  drawStaticLayer(staticLayer);
+
+  // Initialize four fallen apples
+  let canvasWidth = width;
+  let canvasHeight = height;
+  let branchStartX1 = 85 / 464 * canvasWidth;// The starting X position of the first apple
+  let branchStartY1 = 40 / 649 * canvasHeight;// The starting Y position of the first apple
+  let branchStartX2 = 160 / 464 * canvasWidth; // The starting X position of the second apple
+  let branchStartY2 = 195 / 649 * canvasHeight;// The starting Y position of the second apple
+  let branchStartX3 = 275 / 464 * canvasWidth; // Starting X position of the third apple
+  let branchStartY3 = 170 / 649 * canvasHeight; // Starting Y position of the third apple
+  let branchStartX4 = 400 / 464 * canvasWidth; // The starting X position of the fourth apple
+  let branchStartY4 = 120 / 649 * canvasHeight; // Starting Y position of the fourth apple
+
+  fallingApple1 = new Apple(dynamicLayer, random(50,70));
+  fallingApple1.setPosition(branchStartX1, branchStartY1); // Set the initial position of the first apple
+
+  fallingApple2 = new Apple(dynamicLayer, random(50,70));
+  fallingApple2.setPosition(branchStartX2, branchStartY2);// Set the initial position of the second apple
+
+  fallingApple3 = new Apple(dynamicLayer, random(50,70));
+  fallingApple3.setPosition(branchStartX3, branchStartY3); // Set the initial position of the third apple
+
+  fallingApple4 = new Apple(dynamicLayer, random(50,70));
+  fallingApple4.setPosition(branchStartX4, branchStartY4);// Set the initial position of the third apple
 }
 
 function windowResized() {
-  // Resize the canvas to the window's width and height
   resizeCanvas(windowWidth, windowHeight);
-  drawCanvas();
+  // Recreate the layer to fit the new canvas size
+  staticLayer = createGraphics(width, height);
+  dynamicLayer = createGraphics(width, height);
+
+  // Redraw the static image to the static layer
+  drawStaticLayer(staticLayer);
 }
 
 function draw() {
-  background(146, 157, 155);  // 清除画布并设置背景色
-  drawCanvas();  // 绘制基本的画布和静态元素
-  drawLines();   // 根据当前鼠标位置绘制动态线条
-}
+  dynamicLayer.clear(); // Clear the previous dynamic content
 
-function drawCanvas() {
-  // 这里绘制所有不依赖鼠标位置的元素
-  // 确保不再调用 background()
-  drawOilPainting(width, height);
-  drawRoots(width, height);
-  drawBottomRectangle(width, height);
-  drawBranchesAndApples(width, height);
-}
-
-function drawLines() {
-  let centerX = constrain(mouseX, 0, width); // 确保中心点在画布内
-  let numLines = 150; // 线条数量
-
-  for (let i = 0; i < numLines; i++) {
-    let xPosition = map(i, 0, numLines, 0, centerX); // 从画布西侧到鼠标位置均匀放置线条
-    stroke(0); // 设置线条颜色为黑色
-    line(xPosition, 0, xPosition, height); // 从顶部到底部绘制线条
+  if (isFalling) {
+    // Update Apple Location
+    if (fallingApple1.y < height - 50) { // Make sure the apple doesn't fall off the canvas
+      fallingApple1.y += 2; // Move down 2 pixels per frame
+    }
+    if (fallingApple2.y < height - 50) { // Make sure the apple doesn't fall off the canvas
+      fallingApple2.y += 2; // Move down 2 pixels per frame
+    }
+    if (fallingApple3.y < height - 50) { // Make sure the apple doesn't fall off the canvas
+      fallingApple3.y += 2; // Move down 2 pixels per frame
+    }
+    if (fallingApple4.y < height - 50) { // Make sure the apple doesn't fall off the canvas
+      fallingApple4.y += 2; // Move down 2 pixels per frame
+    }
   }
+
+  // Draw the fallen apple
+  fallingApple1.draw();
+  fallingApple2.draw();
+  fallingApple3.draw();
+  fallingApple4.draw();
+
+
+  // Draw a dynamic object on a dynamic layer
+  dynamicLayer.fill(255, 255, 255, 0); // Set the fill color to white
+  dynamicLayer.noStroke(); // No border is drawn
+
+  // Set the line color, width, and endpoint style
+  dynamicLayer.stroke(currentColor); // Set the line color to the current color
+  dynamicLayer.strokeWeight(20); // Set the line width to 20 pixels
+  dynamicLayer.strokeCap(SQUARE); // Set the end of the line to a right Angle
+  dynamicLayer.line(lineX, 860, lineX, 890); // Draw vertical lines
+
+  // The center and radius of the circle
+  let centerX = 325; // Center x coordinates
+  let centerY = 100; // Center y coordinates
+  let radius = 50; // Radius
+
+  // Map lineX to [π, 0]
+  let angle = map(lineX, 100, 550, PI, 0);
+  let sunX = lineX; // The x-coordinate of the sun is directly equal to lineX
+  let sunY = centerY - radius * sin(angle); // Calculate y coordinates
+
+  // Draw the sun
+  dynamicLayer.fill(240, 146, 0);
+  dynamicLayer.noStroke();
+  dynamicLayer.ellipse(sunX, sunY, 80, 80); // Draw the sun
+
+  // Paint the static layer onto the main canvas
+  image(staticLayer, 0, 0);
+  // Paint the dynamic layer onto the main canvas
+  image(dynamicLayer, 0, 0);
 }
 
-function drawRoots(canvasWidth, canvasHeight) {
-  // Calculate and draw the roots rectangle
+function drawStaticLayer(pg) {
+  let canvasWidth = pg.width;
+  let canvasHeight = pg.height;
+
+  // Set the background color
+  pg.background(146, 157, 155);
+  pg.noStroke();
+
+  // Draw the inner layer
+  drawOilPainting(pg, canvasWidth, canvasHeight);
+  // Draw the root
+  drawRoots(pg, canvasWidth, canvasHeight);
+  // Draw the bottom rectangle
+  drawBottomRectangle(pg, canvasWidth, canvasHeight);
+  // Draw branches and apples
+  drawBranchesAndApples(pg, canvasWidth, canvasHeight);
+}
+
+function drawDynamicLayer(pg) {
+  // Draw a dynamic object on a dynamic layer
+  // Here you can add any dynamic content you wish to draw on the dynamic layer
+  // For example, a shifted circle
+  let x = frameCount % width;
+  pg.fill(255, 0, 0);
+  pg.noStroke();
+  pg.ellipse(x, height / 2, 50, 50);
+}
+
+function drawRoots(pg, canvasWidth, canvasHeight) {
   let rootX = 16 / 464 * canvasWidth;
   let rootY = 490 / 649 * canvasHeight;
   let rootWidth = 430 / 464 * canvasWidth;
   let rootHeight = 40 / 649 * canvasHeight;
-  fill(95, 142, 105);
-  rect(rootX, rootY, rootWidth, rootHeight);
+  pg.fill(95, 142, 105);
+  pg.rect(rootX, rootY, rootWidth, rootHeight);
 }
 
-function drawOilPainting(w, h) {
-    // Draw the rectangle for the oil painting
-  fill(83, 96, 110);
-  rect(18, 18, w - 36, h - 36);
+function drawOilPainting(pg, w, h) {
+  pg.fill(83, 96, 110);
+  pg.rect(18, 18, w - 36, h - 36);
 
-  // Draw multiple bezier curves to create the oil painting effect
-  noFill();
-  for (let i = 0; i < 2600; i++) {
+  pg.noFill();
+  for (let i = 0; i < 15000; i++) {
     let strokeWeightValue = random(0.36, 0.08);
-    stroke(i % 3 === 0 ? 255 : 220, 230, 219);
-    strokeWeight(strokeWeightValue);
+    pg.stroke(i % 3 === 0 ? 255 : 220, 230, 219);
+    pg.strokeWeight(strokeWeightValue);
 
     let x1 = random(36, w - 18);
     let y1 = random(36, h - 18);
@@ -67,203 +159,234 @@ function drawOilPainting(w, h) {
     let cp2x = random(x2 - 10, x2 + 10);
     let cp2y = random(y2 - 10, y2 + 5);
 
-    bezier(x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2);
+    pg.bezier(x1, y1, cp1x, cp1y, cp2x, cp2y, x2, y2);
   }
 
-  // Draw multiple small ellipses to create the texture
-  fill(46, 58, 73);
-  noStroke();
-  let xDots = (w-40)/5.5
-  let yDots =  (h-40)/5.5
- for (let i = 0; i < xDots; i++) {
-   for (let j = 0; j < yDots; j++) {
-      ellipse(20 + i * 5.5, 20 + j * 5.5, 2, 2);
+  pg.fill(46, 58, 73);
+  pg.noStroke();
+  let xDots = (w - 40) / 5.5;
+  let yDots = (h - 40) / 5.5;
+  for (let i = 0; i < xDots; i++) {
+    for (let j = 0; j < yDots; j++) {
+      pg.ellipse(20 + i * 5.5, 20 + j * 5.5, 2, 2);
     }
   }
 }
 
-  // Draw the bottom rectangle
-function drawBottomRectangle(canvasWidth, canvasHeight) {
+function drawBottomRectangle(pg, canvasWidth, canvasHeight) {
   let rectX = canvasWidth * 120 / 464;
   let rectY = canvasHeight * 485 / 649;
   let rectW = canvasWidth * 220 / 464;
   let rectH = canvasHeight * 50 / 649;
-  
-  // Draw the bottom rectangle
-  fill(46, 58, 73);
-  stroke(0);
-  strokeWeight(1);
-  fill(230, 197, 116);
-  rect(rectX, rectY, rectW, rectH);
-  fill(251, 88, 87);
-  rect(rectX, rectY, canvasWidth * 44 / 464, rectH);
-  rect(rectX + canvasWidth * 160 / 464, rectY, canvasWidth * 44 / 464, rectH);
-  fill(135, 173, 128);
-  rect(rectX + canvasWidth * 70 / 464, rectY, canvasWidth * 44 / 464, rectH);
-  // Draw apples on the bottom rectangle
-  drawApplesOnRectangle(rectX, rectY, rectW, rectH);
+
+  pg.fill(46, 58, 73);
+  pg.stroke(0);
+  pg.strokeWeight(1);
+  pg.fill(230, 197, 116);
+  pg.rect(rectX, rectY, rectW, rectH);
+  pg.fill(251, 88, 87);
+  pg.rect(rectX, rectY, canvasWidth * 44 / 464, rectH);
+  pg.rect(rectX + canvasWidth * 160 / 464, rectY, canvasWidth * 44 / 464, rectH);
+  pg.fill(135, 173, 128);
+  pg.rect(rectX + canvasWidth * 70 / 464, rectY, canvasWidth * 44 / 464, rectH);
+
+  drawApplesOnRectangle(pg, rectX, rectY, rectW, rectH);
 }
 
-function drawApplesOnRectangle(rectX, rectY, rectW, rectH) {
-  // Add apples to the rectangle
+function drawApplesOnRectangle(pg, rectX, rectY, rectW, rectH) {
   let apples = [];
   for (let i = 0; i < 6; i++) {
     let appleDiameter = 50;
-    let apple = new Apple(appleDiameter);
+    let apple = new Apple(pg, appleDiameter);
     let attempts = 0, maxAttempts = 100;
     do {
       let randomX = random(rectX + appleDiameter / 2, rectX + rectW - appleDiameter / 2);
       apple.setPosition(randomX, rectY + rectH / 2);
       if (attempts++ > maxAttempts) {
         break;
-     }
-      } while (apples.some(a => applesOverlap(a, apple)));
-      if (attempts <= maxAttempts) {
-        apple.draw();
-        apples.push(apple);
       }
+    } while (apples.some(a => applesOverlap(a, apple)));
+    if (attempts <= maxAttempts) {
+      apple.draw();
+      apples.push(apple);
     }
+  }
 }
 
-function drawBranchesAndApples(canvasWidth, canvasHeight) {
-  // Draw branches and apples
+function drawBranchesAndApples(pg, canvasWidth, canvasHeight) {
   let branches = [
-    new Branch(85 / 464 * canvasWidth, 40 / 649 * canvasHeight, 90 / 464 * canvasWidth, 135 / 649 * canvasHeight),
-    new Branch(90 / 464 * canvasWidth, 135 / 649 * canvasHeight, 125 / 464 * canvasWidth, 132 / 649 * canvasHeight),
-    new Branch(125 / 464 * canvasWidth, 132 / 649 * canvasHeight, 123 / 464 * canvasWidth, 265 / 649 * canvasHeight),
-    new Branch(123 / 464 * canvasWidth, 265 / 649 * canvasHeight, 330 / 464 * canvasWidth, 265 / 649 * canvasHeight),
-    new Branch(330 / 464 * canvasWidth, 265 / 649 * canvasHeight, 328 / 464 * canvasWidth, 110 / 649 * canvasHeight),
-    new Branch(328 / 464 * canvasWidth, 110 / 649 * canvasHeight, 400 / 464 * canvasWidth, 125 / 649 * canvasHeight),
-    new Branch(400 / 464 * canvasWidth, 125 / 649 * canvasHeight, 400 / 464 * canvasWidth, 100 / 649 * canvasHeight),
-    new Branch(232 / 464 * canvasWidth, 255 / 649 * canvasHeight, 232 / 464 * canvasWidth, 195 / 649 * canvasHeight),
-    new Branch(160 / 464 * canvasWidth, 195 / 649 * canvasHeight, 275 / 464 * canvasWidth, 195 / 649 * canvasHeight),
-    new Branch(180 / 464 * canvasWidth, 195 / 649 * canvasHeight, 180 / 464 * canvasWidth, 170 / 649 * canvasHeight),
-    new Branch(275 / 464 * canvasWidth, 195 / 649 * canvasHeight, 275 / 464 * canvasWidth, 170 / 649 * canvasHeight),
-    new Branch(232 / 464 * canvasWidth, 255 / 649 * canvasHeight, 232 / 464 * canvasWidth, 485 / 649 * canvasHeight)
+    new Branch(pg, 85 / 464 * canvasWidth, 40 / 649 * canvasHeight, 90 / 464 * canvasWidth, 135 / 649 * canvasHeight),
+    new Branch(pg, 90 / 464 * canvasWidth, 135 / 649 * canvasHeight, 125 / 464 * canvasWidth, 132 / 649 * canvasHeight),
+    new Branch(pg, 125 / 464 * canvasWidth, 132 / 649 * canvasHeight, 123 / 464 * canvasWidth, 265 / 649 * canvasHeight),
+    new Branch(pg, 123 / 464 * canvasWidth, 265 / 649 * canvasHeight, 330 / 464 * canvasWidth, 265 / 649 * canvasHeight),
+    new Branch(pg, 330 / 464 * canvasWidth, 265 / 649 * canvasHeight, 328 / 464 * canvasWidth, 110 / 649 * canvasHeight),
+    new Branch(pg, 328 / 464 * canvasWidth, 110 / 649 * canvasHeight, 400 / 464 * canvasWidth, 125 / 649 * canvasHeight),
+    new Branch(pg, 400 / 464 * canvasWidth, 125 / 649 * canvasHeight, 400 / 464 * canvasWidth, 100 / 649 * canvasHeight),
+    new Branch(pg, 232 / 464 * canvasWidth, 255 / 649 * canvasHeight, 232 / 464 * canvasWidth, 195 / 649 * canvasHeight),
+    new Branch(pg, 160 / 464 * canvasWidth, 195 / 649 * canvasHeight, 275 / 464 * canvasWidth, 195 / 649 * canvasHeight),
+    new Branch(pg, 180 / 464 * canvasWidth, 195 / 649 * canvasHeight, 180 / 464 * canvasWidth, 170 / 649 * canvasHeight),
+    new Branch(pg, 275 / 464 * canvasWidth, 195 / 649 * canvasHeight, 275 / 464 * canvasWidth, 170 / 649 * canvasHeight),
+    new Branch(pg, 232 / 464 * canvasWidth, 255 / 649 * canvasHeight, 232 / 464 * canvasWidth, 485 / 649 * canvasHeight)
   ];
   branches.forEach(branch => {
-    branch.addApples(12); // Add apples to each branch
-    branch.drawApples(); // Draw the apples
-    branch.drawBranch(); // Draw the branch
+    branch.addApples(12);
+    branch.drawBranch();
+    branch.apples.forEach(apple => {
+      apple.draw();
+    });
   });
+
+  // Draw the branches and apples reduced by 0.5 times, rotated 180 degrees, and shifted down by 100 units
+  pg.push(); // Save the current drawing state
+  pg.translate(canvasWidth / 2, canvasHeight / 2); // Move the coordinate origin to the center of the canvas
+  pg.rotate(pg.radians(180)); // Rotate 180 degrees
+  pg.scale(0.3); // Reduced to 0.5 times the original size
+  pg.scale(-1, 1); // Reduced to 0.5 times the original size
+  pg.translate(-canvasWidth / 2, -canvasHeight / 2 - 1200); // Move the origin of the coordinates back to the upper left corner and shift down by 100 units
+  pg.fill(255, 100, 100); // Set fill color to gray (shadow color)
+  pg.stroke(50); // Set the stroke color to gray
+
+  // Guarantee to draw immediately after setting the color
+  branches.forEach(branch => {
+    branch.drawBranch();
+    branch.apples.forEach(apple => {
+      apple.draw();
+    });
+  });
+
+  pg.pop(); // Restore the previous drawing state
 }
 
-function draw() {
-  drawCanvas();  // Draw the basic canvas and static elements
-  drawLines();   // Draw dynamic lines and interactive elements
-}
-
-// Branch class for managing the drawing of branches and apples
 class Branch {
-  // Constructor initializes a branch with its start and end coordinates
-  constructor(x1, y1, x2, y2) {
-    this.x1 = x1; // Starting x-coordinate
-    this.y1 = y1; // Starting y-coordinate
-    this.x2 = x2; // Ending x-coordinate
-    this.y2 = y2; // Ending y-coordinate
-    this.apples = []; // Array to hold Apple objects on this branch
+  constructor(pg, x1, y1, x2, y2) {
+    this.pg = pg;
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.apples = [];
   }
 
-  // Draws the branch as a line from its start to end points
   drawBranch() {
-    stroke(0, 0, 0);  
-    strokeWeight(1.2); 
-    // Draw the line representing the branch
-    line(this.x1, this.y1, this.x2, this.y2); 
+    this.pg.stroke(0, 0, 0);
+    this.pg.strokeWeight(1.2);
+    this.pg.line(this.x1, this.y1, this.x2, this.y2);
   }
 
-  // Draws the apples on the branch
   drawApples() {
     this.apples.forEach(apple => apple.draw());
   }
 
-  // Adds a specified number of apples along the branch
   addApples(numApples) {
-    // Calculate spacing between apples along the branch based on the number of apples
     let spacing = this.calculateSpacing(numApples);
-    // Temporary variable for attempt count in positioning apples
     let attempts, maxAttempts = 100;
 
     for (let i = 0; i < numApples; i++) {
-      // Randomly determine the diameter for each apple
-      let appleDiameter = random(20, 85);
-      let apple = new Apple(appleDiameter);
-      attempts = 0; // Reset attempts for each apple
+      let appleDiameter = random(40, 85);
+      let apple = new Apple(this.pg, appleDiameter);
+      attempts = 0;
 
-      // Position apples ensuring they do not overlap
       do {
-        // Calculates the linear interpolation parameter t along the branch and sets the apple position        
         let t = (spacing * (i + 3)) / dist(this.x1, this.y1, this.x2, this.y2);
         apple.setPosition(lerp(this.x1, this.x2, t), lerp(this.y1, this.y2, t));
 
-        // Limit the number of attempts to position each apple to prevent infinite loops
         if (attempts++ > maxAttempts) {
           break;
         }
-      } while (this.apples.some(a => applesOverlap(a, apple))); // Check for overlapping apples
+      } while (this.apples.some(a => applesOverlap(a, apple)));
 
-        // If the maximum limit is not exceeded, draw and store apples      
-        if (attempts <= maxAttempts) {
+      if (attempts <= maxAttempts) {
         this.apples.push(apple);
       }
     }
   }
 
-  // Calculates the distance-based spacing between apples on the branch
   calculateSpacing(numApples) {
     return dist(this.x1, this.y1, this.x2, this.y2) / (numApples + 1);
   }
-
-  // Added method to get the average position and a representative diameter for shadow casting
-  getShadowCastingProperties() {
-    return {
-      x: (this.x1 + this.x2) / 2,
-      y: (this.y1 + this.y2) / 2,
-      diameter: 10 // Assumed diameter value
-    };
-  }
 }
 
-// Defines a function to check if two apples overlap
 function applesOverlap(apple1, apple2) {
-  // Calculate the distance between the centers of two apples
   let distance = dist(apple1.x, apple1.y, apple2.x, apple2.y);
-  // Return true if the distance is less than the sum of their radii
   return distance < (apple1.diameter / 2 + apple2.diameter / 2);
 }
 
-// Apple class for creating and drawing apples
 class Apple {
-  constructor(diameter) {
-    this.x = 0;  // x-coordinate of the apple's center
-    this.y = 0;  // y-coordinate of the apple's center
-    this.diameter = diameter;  // Diameter of the apple
-    this.color1 = color(251, 88, 87);  // One side color - red
-    this.color2 = color(135, 173, 128);  // Another side color - green
+  constructor(pg, diameter) {
+    this.pg = pg;
+    this.x = 0;
+    this.y = 0;
+    this.diameter = diameter;
+    this.color1 = color(251, 88, 87); 
+    this.color2 = color(135, 173, 128); 
+    this.orientation = random() < 0.5 ? 'horizontal' : 'vertical'; // Randomly choose horizontal or vertical
   }
 
-  // Set the position of the apple
   setPosition(x, y) {
     this.x = x;
     this.y = y;
   }
 
-  // Draw the apple with split colors
   draw() {
-    // Set color arrangement by different split, color1 is red, color2 is green
-    // Decide the split direction by different random number interval
-    if (random() < 0.5) {
-      // Split horizontally
-      fill(this.color1);
-      arc(this.x, this.y, this.diameter, this.diameter, PI, TWO_PI);
-      fill(this.color2);
-      arc(this.x, this.y, this.diameter, this.diameter, 0, PI);
+    this.pg.stroke(0); // Set the border color to black
+    this.pg.strokeWeight(1); // Set the border width to 2 pixels
+    if (this.orientation === 'horizontal') {
+      this.pg.fill(this.color1);
+      this.pg.arc(this.x, this.y, this.diameter, this.diameter, -HALF_PI, HALF_PI);
+      this.pg.fill(this.color2);
+      this.pg.arc(this.x, this.y, this.diameter, this.diameter, HALF_PI, -HALF_PI);
     } else {
-      // Split vertically
-      fill(this.color1);
-      arc(this.x, this.y, this.diameter, this.diameter, -HALF_PI, HALF_PI);
-      fill(this.color2);
-      arc(this.x, this.y, this.diameter, this.diameter, HALF_PI, -HALF_PI);
+      this.pg.fill(this.color1);
+      this.pg.arc(this.x, this.y, this.diameter, this.diameter, PI, TWO_PI);
+      this.pg.fill(this.color2);
+      this.pg.arc(this.x, this.y, this.diameter, this.diameter, 0, PI);
     }
+  }
+}
+
+let isDragging = false; // Flag variable, used to check whether the line is pressed and dragged
+let lineX = 325; // The X-coordinate of the line
+let normalColor = 'black'; // Normal state color
+let hoverColor = 'gray';  
+let dragColor = 'red';  
+let currentColor = normalColor; // Current color
+let angle = 0; // The sun's Angle
+
+function mousePressed() {
+  if (mouseX > lineX - 10 && mouseX < lineX + 10 && mouseY > 860 && mouseY < 890) {
+    isDragging = true;
+    currentColor = dragColor;
+  }
+}
+
+function mouseDragged() {
+  if (isDragging) {
+    lineX = constrain(mouseX, 28, 622);
+    currentColor = dragColor;
+  }
+}
+
+function mouseMoved() {
+  if (!isDragging) {
+    if (mouseX > lineX - 10 && mouseX < lineX + 10 && mouseY > 860 && mouseY < 890) {
+      currentColor = hoverColor;
+    } else {
+      currentColor = normalColor;
+    }
+  }
+}
+
+function mouseReleased() {
+  isDragging = false;
+  if (mouseX > lineX - 10 && mouseX < lineX + 10 && mouseY > 860 && mouseY < 890) {
+    currentColor = hoverColor;
+  } else {
+    currentColor = normalColor;
+  }
+}
+
+function keyPressed() {
+  if (key === '1') {
+    isFalling = true; // When the '1' key is pressed, the drop begins
   }
 }
