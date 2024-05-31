@@ -21,9 +21,10 @@ The difference between my work and the group's work is that my work is animated 
 ## Inspiration for animation
 
 - In the group work, I tried to add the sun and shadow, but because it affected the overall proportion of the picture, I didn't use it in the end, as shown in the figure below. In my personal assignment, I tried to adjust the proportion of the overall canvas to make it harmonious, added the sun and shadow, and let them move with the sliding button to form an interactive process.
-![20ab2cfd62cafedd336a07e3c7d0174](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/0ac63de3-cf21-48d3-ad63-03847e531814)
-![1508756033910dbc948d07d77f72633](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/69077839-0b7c-451b-86cd-44fa38d740db)
-
+<p float="left">
+  <img src="[image1.jpg](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/0ac63de3-cf21-48d3-ad63-03847e531814)" width="100" />
+  <img src="[image2.jpg](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/69077839-0b7c-451b-86cd-44fa38d740db)" width="100" /> 
+</p>
 
 
 - The inspiration for the flower blooming animation came from an accidental attempt. When I wanted to change the color of the apples in the group work, an image that looked like a flower appeared, as shown below. I added this interesting element to my work. Flowers blooming on the apple tree are like the arrival of spring.
