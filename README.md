@@ -22,8 +22,7 @@ The difference between my work and the group's work is that my work is animated 
 
 - In the group work, I tried to add the sun and shadow, but because it affected the overall proportion of the picture, I didn't use it in the end, as shown in the figure below. In my personal assignment, I tried to adjust the proportion of the overall canvas to make it harmonious, added the sun and shadow, and let them move with the sliding button to form an interactive process.
 
- ![20ab2cfd62cafedd336a07e3c7d0174](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/14eb7ca1-2bf8-4b08-a43e-60558330f038)
-![1508756033910dbc948d07d77f72633](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/7d6ef228-7355-471e-8740-50bccc095373)
+< img src="https://github.com/shengkai927/NoC-adversarial-attack/assets/76135696/ead5ed33-bfad-43be-8228-6088ebe060e6" width="180" height="105">< img src="https://github.com/shengkai927/NoC-adversarial-attack/assets/76135696/c1180169-8a4d-47d0-b799-813d206062ae" width="180" height="105">
 
 - The inspiration for the flower blooming animation came from an accidental attempt. When I wanted to change the color of the apples in the group work, an image that looked like a flower appeared, as shown below. I added this interesting element to my work. Flowers blooming on the apple tree are like the arrival of spring.
 
