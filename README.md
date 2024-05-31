@@ -22,16 +22,16 @@ The difference between my work and the group's work is that my work is animated 
 
 - In the group work, I tried to add the sun and shadow, but because it affected the overall proportion of the picture, I didn't use it in the end, as shown in the figure below. In my personal assignment, I tried to adjust the proportion of the overall canvas to make it harmonious, added the sun and shadow, and let them move with the sliding button to form an interactive process.
 
-<img src="https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/14eb7ca1-2bf8-4b08-a43e-60558330f038" width="480" height="600"><img src="https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/7d6ef228-7355-471e-8740-50bccc095373" width="480" height="600">
+![20ab2cfd62cafedd336a07e3c7d0174](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/4100bd4b-5188-45c7-aafe-a397a5a1248d)
 
 - The inspiration for the flower blooming animation came from an accidental attempt. When I wanted to change the color of the apples in the group work, an image that looked like a flower appeared, as shown below. I added this interesting element to my work. Flowers blooming on the apple tree are like the arrival of spring.
 
-
+![9927b8b79d922de6f140d1e0466f244](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/f57e7da7-9f5f-4734-a012-b3f4953889f9)
 
 - The inspiration for the falling apples in the snow comes from the picture below. When it snows heavily, the apples will fall. To simulate reality, I added an animation of the apples bouncing back.
 
-
-
+![image](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/513c0472-6396-4a02-a417-6e9908be5006)
+![image](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/9f9a6550-d567-4ebd-b380-591a529ecf00)
 
 ## Technical interpretation
 
