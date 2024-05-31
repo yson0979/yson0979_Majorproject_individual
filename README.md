@@ -25,8 +25,6 @@ The difference between my work and the group's work is that my work is animated 
  ![20ab2cfd62cafedd336a07e3c7d0174](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/14eb7ca1-2bf8-4b08-a43e-60558330f038)
 ![1508756033910dbc948d07d77f72633](https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/7d6ef228-7355-471e-8740-50bccc095373)
 
-< img src="https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/14eb7ca1-2bf8-4b08-a43e-60558330f038" width="180" height="105">< img src="https://github.com/yson0979/yson0979_Majorproject_individual/assets/168100240/7d6ef228-7355-471e-8740-50bccc095373" width="180" height="105">
-
 - The inspiration for the flower blooming animation came from an accidental attempt. When I wanted to change the color of the apples in the group work, an image that looked like a flower appeared, as shown below. I added this interesting element to my work. Flowers blooming on the apple tree are like the arrival of spring.
 
 
