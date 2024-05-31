@@ -16,6 +16,7 @@ In my personal work, there are three animation scenes.
 - I added the sun and shadow. When the user clicks the button and drags to control the position of the sun, the angle of the shadow of the apple tree changes accordingly.
 - When the user enters "1" on the keyboard, heavy snow will drift by with the wind, and some apples on the tree will fall and rebound.
 - When the user enters "2" on the keyboard, an animation of flowers blooming on the apple tree will appear.
+
 The difference between my work and the group's work is that my work is animated by the user's step-by-step operation, while my group's animation is continuous. Since I want to highlight each step of my animation, I set the original group work to a static setting.
 
 ## Inspiration for animation
